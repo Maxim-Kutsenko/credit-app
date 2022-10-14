@@ -13,9 +13,9 @@ import { Main } from "./pages/Main/Main";
 import "./css/index.css";
 import { Information } from "./pages/Information/Information";
 import { Loader } from "./components/Loader/Loader";
-import { deviceDataResult } from "./device";
+import { deviceDataResult } from "./components/device";
 
-export const KEY = "52bkks78hD";
+export const KEY = "7e5de465fbf7";
 export const MAIN_URL = "https://leadsfin.ru/api/all";
 export const RES_URL = `https://leadsfin.xyz/source.php?key=${KEY}`;
 export const domain =
