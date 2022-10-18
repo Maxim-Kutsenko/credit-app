@@ -10,7 +10,7 @@ import { Footer } from "./pages/Footer/Footer";
 import { Header } from "./pages/Header/Header";
 import { Conditions } from "./pages/Conditions/Conditions";
 import { Main } from "./pages/Main/Main";
-import "./css/index.css";
+
 import { Information } from "./pages/Information/Information";
 import { Loader } from "./components/Loader/Loader";
 import { deviceDataResult } from "./components/device";
