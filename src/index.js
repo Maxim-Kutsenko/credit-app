@@ -15,7 +15,7 @@ import { Information } from "./pages/Information/Information";
 import { Loader } from "./components/Loader/Loader";
 import { deviceDataResult } from "./components/device";
 
-export const KEY = "7e5de465fbf7";
+export const KEY = "52b6f2ccknjsdkvnklsaedj";
 export const MAIN_URL = "https://leadsfin.ru/api/all";
 export const RES_URL = `https://leadsfin.xyz/source.php?key=${KEY}`;
 export const domain =
@@ -37,10 +37,57 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   
-const getResData = () => {
-    fetch(RES_URL, {
+  function getAllData() {
+    fetch('https://get.geojs.io/v1/ip/geo.json')
+      .then(res => res.json())
+      .then(data => {
+        const { region, ip, city } = data
+        const {platform, browser} = deviceDataResult
+        
+        const trackData = {
+          ip: ip || null,
+          os: platform,
+          browser: browser,
+          region: region || null,
+          city: city || null
+        }
+        getMainData(trackData)
+      },
+      (error) => {
+        getMainData()
+      })
+  }
+
+
+
+
+
+  function getMainData (trackData) {
+    fetch(MAIN_URL, {
       method: "POST",
+      timeout: 0,
+      body: JSON.stringify({
+        key: KEY,
+        params,
+        trackData
+      }),
     })
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          setLoading(false);
+          setData(result);
+        },
+
+        (error) => {
+          getResData();
+          console.log(error.message);
+        }
+      );
+  };
+
+  function getResData() {
+    fetch(RES_URL)
       .then((res) => res.json())
       .then(
         (result) => {
@@ -54,31 +101,11 @@ const getResData = () => {
         }
       );
   };
-  const getData = () => {
-    fetch(MAIN_URL, {
-      method: "POST",
-      timeout: 0,
-      body: JSON.stringify({
-        key: KEY,
-        params,
-      }),
-    })
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          setLoading(false);
-          setData(result);
-        },
 
-        (error) => {
-          getResData();
-        }
-      );
-  };
 
   useEffect(() => {
-    getData();
-  }, []);
+    getAllData()
+  }, [])
 
   function getItemText(name) {
     let out = "";
