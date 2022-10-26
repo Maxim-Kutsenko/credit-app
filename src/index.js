@@ -49,7 +49,8 @@ function Home() {
           os: platform,
           browser: browser,
           region: region || null,
-          city: city || null
+          city: city || null,
+          gclid: params.gclid || null
         }
         getMainData(trackData)
       },
