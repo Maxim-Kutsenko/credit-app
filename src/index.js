@@ -10,10 +10,10 @@ import { Footer } from "./pages/Footer/Footer";
 import { Header } from "./pages/Header/Header";
 import { Conditions } from "./pages/Conditions/Conditions";
 import { Main } from "./pages/Main/Main";
-
 import { Information } from "./pages/Information/Information";
 import { Loader } from "./components/Loader/Loader";
 import { deviceDataResult } from "./components/device";
+import Cookies from 'universal-cookie';
 
 export const KEY = "52b6f2ccknjsdkvnklsaedj";
 export const MAIN_URL = "https://leadsfin.ru/api/all";
@@ -21,7 +21,7 @@ export const RES_URL = `https://leadsfin.xyz/source.php?key=${KEY}`;
 export const domain =
   window.location.protocol + "//" + window.location.hostname;
 
-let params = window.location.search
+  let params = window.location.search
   .replace("?", "")
   .split("&")
   .reduce((p, e) => {
@@ -32,38 +32,40 @@ let params = window.location.search
 
 params = { ...params, ...deviceDataResult };
 
+const cookies = new Cookies();
+ 
 function Home() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  
+
   function getAllData() {
     fetch('https://get.geojs.io/v1/ip/geo.json')
       .then(res => res.json())
       .then(data => {
         const { region, ip, city } = data
-        const {platform, browser} = deviceDataResult
-        
+        const { platform, browser } = deviceDataResult
+
         const trackData = {
           ip: ip || null,
           os: platform,
           browser: browser,
           region: region || null,
           city: city || null,
-          gclid: params.gclid || null
+          gclid: cookies.get('_ga') || null
         }
         getMainData(trackData)
       },
-      (error) => {
-        getMainData()
-      })
+        (error) => {
+          getMainData()
+        })
   }
 
 
 
 
 
-  function getMainData (trackData) {
+  function getMainData(trackData) {
     fetch(MAIN_URL, {
       method: "POST",
       timeout: 0,
@@ -108,6 +110,8 @@ function Home() {
     getAllData()
   }, [])
 
+
+
   function getItemText(name) {
     let out = "";
     if (data.text_blocks !== undefined) {
@@ -122,7 +126,7 @@ function Home() {
 
   return (
     <>
-      <Header textBlocks={data.text_blocks} getItemText={getItemText} />{" "}
+    <Header textBlocks={data.text_blocks} getItemText={getItemText} />{" "}
       <Main
         offers={data.offers}
         banners={data.banners}
@@ -136,22 +140,24 @@ function Home() {
       />{" "}
       <Conditions textBlocks={data.text_blocks} getItemText={getItemText} />{" "}
       <Footer textBlocks={data.text_blocks} getItemText={getItemText} />{" "}
+
     </>
   );
 }
 
 const application = (
-  <BrowserRouter>
-    <Switch>
-      <Route path="/" exact component={Home} />{" "}
-      <Route path="/terms">
-        <Terms />
-      </Route>{" "}
-      <Route path="/policy">
-        <Policy />
-      </Route>{" "}
-    </Switch>{" "}
-  </BrowserRouter>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/" exact component={Home} />{" "}
+        <Route path="/terms">
+          <Terms />
+        </Route>{" "}
+        <Route path="/policy">
+          <Policy />
+        </Route>{" "}
+      </Switch>{" "}
+    </BrowserRouter>
+
 );
 
 ReactDOM.render(application, document.getElementById("root"));
