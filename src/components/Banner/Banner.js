@@ -2,8 +2,12 @@ import React from 'react';
 import '../../css/index.css'
 import { domain } from '../..';
 import arrow from '../../img/arrow.svg'
+
 export const Banner = (props) => {
+
+
   return (
+
     <a
       href={props.link}
       className="banner"

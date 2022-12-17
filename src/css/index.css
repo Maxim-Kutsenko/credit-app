@@ -737,16 +737,13 @@ span.gray {
 
 .banner {
 
-    display: none;
     margin-bottom: 30px;
     color: #000;
 }
 
 @media(max-width:550px) {
-    .banner {
-        display: block;
 
-    }
+
 }
 
 .banner__wrap {

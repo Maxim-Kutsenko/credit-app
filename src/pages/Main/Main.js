@@ -1,11 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '../../css/index.css'
 import { Card } from '../../components/Card/Card';
 import { Banner } from '../../components/Banner/Banner';
+import { AdvertisingBanner } from '../../components/AdvertisingBanner/AdvertisingBanner';
 
 export const Main = (props) => {
+  useEffect(() => {
+    const script = document.createElement('script');
+
+    script.src = "https://network.adsfin.pro/59918a10.js";
+    script.async = true;
+
+    document.head.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    }
+  }, []);
+
   function renderCards() {
-    
+
     while (props.offers?.length || props.banners?.length) {
       let offersSpliced = props.offers.splice(0, 4)
       let bannersSpliced = props.banners.splice(0, 1)
@@ -37,15 +50,13 @@ export const Main = (props) => {
           <>
             {
               bannersSpliced?.map((item, index) =>
-                <Banner
-                  key={index}
-                  logo={item.logo}
-                  color={item.color}
-                  title={item.title}
-                  text={item.text}
-                  link={item.link}
-                  
-                />
+                item.code !== null ?
+                  window.innerWidth <= 550 && <AdvertisingBanner code={item.code} />
+                  :
+                  window.innerWidth <= 550 && <Banner 
+                                                  color={item.color}
+                                                  
+                                                />
               )
             }
           </>
