@@ -53,10 +53,14 @@ export const Main = (props) => {
                 item.code !== null ?
                   window.innerWidth <= 550 && <AdvertisingBanner code={item.code} />
                   :
-                  window.innerWidth <= 550 && <Banner 
-                                                  color={item.color}
-                                                  
-                                                />
+                  window.innerWidth <= 550 && <Banner
+                                                key={index}
+                                                logo={item.logo}
+                                                color={item.color}
+                                                title={item.title}
+                                                text={item.text}
+                                                link={item.link}
+                                              />
               )
             }
           </>
