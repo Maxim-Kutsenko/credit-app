@@ -18,7 +18,8 @@ import Cookies from 'universal-cookie';
 export const KEY = "52b6f2ccknjsdkvnklsaedj";
 export const MAIN_URL = "https://leadsfin.ru/api/all";
 export const RES_URL = `https://leadsfin.xyz/source.php?key=${KEY}`;
-export const domain = window.location.protocol + "//" + window.location.hostname;
+export const domain =
+  window.location.protocol + "//" + window.location.hostname;
 
   let params = window.location.search
   .replace("?", "")
@@ -108,7 +109,6 @@ function Home() {
   useEffect(() => {
     getAllData()
   }, [])
-  
 
 
 
