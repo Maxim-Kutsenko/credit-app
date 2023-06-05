@@ -15,13 +15,13 @@ import { Loader } from "./components/Loader/Loader";
 import { deviceDataResult } from "./components/device";
 import Cookies from 'universal-cookie';
 
-export const KEY = "52b6f2ccknjsdkvnklsaedj";
-export const MAIN_URL = "https://leadsfin.ru/api/all";
-export const RES_URL = `https://leadsfin.xyz/source.php?key=${KEY}`;
+export const KEY = process.env.REACT_APP_API_KEY;
+export const MAIN_URL = process.env.REACT_APP_MAIN_URL;
+export const RES_URL = process.env.REACT_APP_RES_URL + KEY;
 export const domain =
   window.location.protocol + "//" + window.location.hostname;
 
-  let params = window.location.search
+let params = window.location.search
   .replace("?", "")
   .split("&")
   .reduce((p, e) => {
@@ -33,7 +33,7 @@ export const domain =
 params = { ...params, ...deviceDataResult };
 
 const cookies = new Cookies();
- 
+
 function Home() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -126,7 +126,7 @@ function Home() {
 
   return (
     <>
-    <Header textBlocks={data.text_blocks} getItemText={getItemText} />{" "}
+      <Header textBlocks={data.text_blocks} getItemText={getItemText} />{" "}
       <Main
         offers={data.offers}
         banners={data.banners}
@@ -146,17 +146,17 @@ function Home() {
 }
 
 const application = (
-    <BrowserRouter>
-      <Switch>
-        <Route path="/" exact component={Home} />{" "}
-        <Route path="/terms">
-          <Terms />
-        </Route>{" "}
-        <Route path="/policy">
-          <Policy />
-        </Route>{" "}
-      </Switch>{" "}
-    </BrowserRouter>
+  <BrowserRouter>
+    <Switch>
+      <Route path="/" exact component={Home} />{" "}
+      <Route path="/terms">
+        <Terms />
+      </Route>{" "}
+      <Route path="/policy">
+        <Policy />
+      </Route>{" "}
+    </Switch>{" "}
+  </BrowserRouter>
 
 );
 
